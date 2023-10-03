@@ -17,9 +17,9 @@
 body {
   margin: 0;
   display: flex;
-  place-items: flex-start;
+  place-items: stretch;
   min-width: 320px;
-  min-height: calc(100vh - 40px);
+  min-height: 100vh;
 }
 
 #root {
@@ -35,4 +35,8 @@ body {
 
 .react-chatbot-kit-chat-bot-message {
   width: auto;
+}
+
+iframe {
+  flex-grow: 1;
 }
