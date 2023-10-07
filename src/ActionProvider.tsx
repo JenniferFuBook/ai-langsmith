@@ -33,9 +33,9 @@ const ActionProvider = ({ createChatBotMessage, setState, children }: any) => {
         openAIApiKey: import.meta.env.VITE_OPENAI_API_KEY,
         // use GPT 4
         modelName: 'gpt-4',
-        // temperature is a number between 0 and 2, with a default value of 
-        // 1 or 0.7 depending on the selected model. The temperature is used 
-        // to control the randomness of the output. When it is set higher, 
+        // temperature is a number between 0 and 2, with a default value of
+        // 1 or 0.7 depending on the selected model. The temperature is used
+        // to control the randomness of the output. When it is set higher,
         // there will be more random outputs.
         temperature: 0,
       });
