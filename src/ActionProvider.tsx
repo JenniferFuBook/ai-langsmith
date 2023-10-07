@@ -6,12 +6,27 @@ import {
 } from 'langchain/agents';
 import { SerpAPI } from 'langchain/tools';
 import { Calculator } from 'langchain/tools/calculator';
+import { Client } from 'langsmith';
+import { LangChainTracer } from 'langchain/callbacks';
 
 const ActionProvider = ({ createChatBotMessage, setState, children }: any) => {
   const executor = React.useRef<AgentExecutor>();
+  const tracer = React.useRef<LangChainTracer>();
 
   React.useEffect(() => {
     const init = async () => {
+      // create a LangSmith client with endpoint and key
+      const client = new Client({
+        apiUrl: 'https://api.smith.langchain.com',
+        apiKey: import.meta.env.VITE_LANGCHAIN_API_KEY,
+      });
+
+      // create a LangChainTracer to trace the call
+      tracer.current = new LangChainTracer({
+        projectName: import.meta.env.VITE_LANGCHAIN_PROJECT,
+        client,
+      });
+
       // define a model
       const model = new ChatOpenAI({
         // use OPENAI_API_KEY
@@ -49,7 +64,11 @@ const ActionProvider = ({ createChatBotMessage, setState, children }: any) => {
   const generateResponse = async (message: string) => {
     if (executor.current) {
       // agent takes a list of messages as input and returns a message
-      const response = await executor.current.call({ input: message });
+      // the tracer is attached
+      const response = await executor.current.call(
+        { input: message },
+        { callbacks: [tracer.current] }
+      );
       // the message is converted to a string message
       const botMessage = createChatBotMessage(response.output);
 

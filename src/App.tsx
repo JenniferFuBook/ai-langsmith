@@ -7,11 +7,19 @@ import ActionProvider from './ActionProvider';
 
 function App() {
   return (
-    <Chatbot
-      config={config}
-      actionProvider={ActionProvider}
-      messageParser={MessageParser}
-    />
+    <>
+      <Chatbot
+        config={config}
+        actionProvider={ActionProvider}
+        messageParser={MessageParser}
+      />
+      <iframe
+        src={`https://smith.langchain.com/o/${
+          import.meta.env.VITE_LANGCHAIN_TENANT_ID
+        }`}
+        sandbox
+      />
+    </>
   );
 }
 
